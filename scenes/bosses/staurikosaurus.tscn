@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/staurikosaurus.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(56, 30)
+
+[sub_resource type="RectangleShape2D" id="bite"]
+size = Vector2(26, 20)
+
+[node name="Staurikosaurus" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+boss_id = "triassico"
+max_hp = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -15)
+shape = SubResource("body")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Tail" type="Polygon2D" parent="Visual"]
+color = Color(0.18, 0.28, 0.2, 1)
+polygon = PackedVector2Array(-20, -22, -58, -30, -62, -26, -22, -10)
+
+[node name="Body" type="Polygon2D" parent="Visual"]
+color = Color(0.22, 0.36, 0.25, 1)
+polygon = PackedVector2Array(-26, -30, 14, -32, 22, -20, 14, -8, -24, -8)
+
+[node name="Neck" type="Polygon2D" parent="Visual"]
+color = Color(0.22, 0.36, 0.25, 1)
+polygon = PackedVector2Array(12, -32, 24, -44, 32, -42, 22, -22)
+
+[node name="Head" type="Polygon2D" parent="Visual"]
+color = Color(0.25, 0.4, 0.28, 1)
+polygon = PackedVector2Array(22, -48, 46, -44, 48, -38, 40, -34, 24, -36)
+
+[node name="Eye" type="Polygon2D" parent="Visual"]
+color = Color(0.95, 0.2, 0.1, 1)
+polygon = PackedVector2Array(30, -45, 34, -45, 34, -42, 30, -42)
+
+[node name="LegBack" type="Polygon2D" parent="Visual"]
+color = Color(0.16, 0.26, 0.18, 1)
+polygon = PackedVector2Array(-18, -12, -6, -12, -8, 0, -16, 0)
+
+[node name="LegFront" type="Polygon2D" parent="Visual"]
+color = Color(0.2, 0.32, 0.22, 1)
+polygon = PackedVector2Array(2, -12, 14, -12, 14, 0, 4, 0)
+
+[node name="Bite" type="Area2D" parent="Visual"]
+collision_layer = 16
+collision_mask = 2
+monitoring = false
+script = ExtResource("2")
+damage = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/Bite"]
+position = Vector2(38, -40)
+shape = SubResource("bite")

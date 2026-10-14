@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/platform.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/bosses/staurikosaurus.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/kill_zone.gd" id="5"]
+
+[sub_resource type="RectangleShape2D" id="kill"]
+size = Vector2(4000, 40)
+
+[node name="Triassico" type="Node2D"]
+
+[node name="BG" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Sky" type="ColorRect" parent="BG"]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.12, 0.04, 0.05, 1)
+
+[node name="Sun" type="Polygon2D" parent="BG"]
+position = Vector2(120, 70)
+color = Color(0.6, 0.15, 0.1, 1)
+polygon = PackedVector2Array(-20, -14, -8, -22, 8, -22, 20, -14, 22, 0, 20, 14, 8, 22, -8, 22, -20, 14, -22, 0)
+
+[node name="Hills" type="Polygon2D" parent="BG"]
+color = Color(0.16, 0.06, 0.07, 1)
+polygon = PackedVector2Array(0, 360, 0, 240, 120, 200, 260, 230, 400, 180, 540, 220, 640, 200, 640, 360)
+
+[node name="Title" type="Label" parent="BG"]
+offset_left = 240.0
+offset_top = 10.0
+offset_right = 628.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.6, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+text = "Triássico de Santa Maria · 230 milhões de anos atrás"
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(-100, 300)
+script = ExtResource("3")
+size = Vector2(900, 80)
+color = Color(0.22, 0.1, 0.08, 1)
+
+[node name="WallL" type="StaticBody2D" parent="."]
+position = Vector2(-40, 0)
+script = ExtResource("3")
+size = Vector2(40, 300)
+color = Color(0.18, 0.08, 0.07, 1)
+
+[node name="WallR" type="StaticBody2D" parent="."]
+position = Vector2(700, 0)
+script = ExtResource("3")
+size = Vector2(40, 300)
+color = Color(0.18, 0.08, 0.07, 1)
+
+[node name="Rock1" type="StaticBody2D" parent="."]
+position = Vector2(200, 230)
+script = ExtResource("3")
+size = Vector2(70, 14)
+color = Color(0.3, 0.14, 0.1, 1)
+
+[node name="Rock2" type="StaticBody2D" parent="."]
+position = Vector2(430, 230)
+script = ExtResource("3")
+size = Vector2(70, 14)
+color = Color(0.3, 0.14, 0.1, 1)
+
+[node name="KillZone" type="Area2D" parent="."]
+position = Vector2(300, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5")
+
+[node name="Shape" type="CollisionShape2D" parent="KillZone"]
+shape = SubResource("kill")
+
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(100, 300)
+
+[node name="Camera2D" parent="Player" index="3"]
+limit_left = 0
+limit_top = -100
+limit_right = 700
+limit_bottom = 380
+
+[node name="Boss" parent="." instance=ExtResource("4")]
+position = Vector2(540, 300)
+
+[node name="HUD" parent="." instance=ExtResource("2")]
